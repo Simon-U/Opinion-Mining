@@ -46,10 +46,11 @@ https://www.kaggle.com/andrewmvd/trip-advisor-hotel-reviews
 ## ToDo
 
 - [x] Prepare data preprocessing
-- [x] Evaluate the ideal number of topics
-- [ ] Fine tune hyperparametrization
-- [ ] Use Cosine Similarity to set up force graphs
+- [x] Fine tune hyperparametrization
+- [x] Add topics to reviews
+- [ ] Add Cosine Similarity
 - [ ] Add Sentiment to each document
+- [ ] Set up Graphs for visualisation 
 - [ ] Build Flask App
 
 
