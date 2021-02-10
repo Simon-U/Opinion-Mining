@@ -1,11 +1,15 @@
 # Topic Analysis
 
 In the following notebook the first steps to evaluate a Latent Dirichlet allocation model are performed.
-In this case latent topics for tripadvisoer reviews are modeled. The coherence measure is used to find the optimal parametrisation of the model.
+In this case latent topics for Tripadvisor reviews are modeled. The coherence measure is used to find the optimal parametrisation of the model.
 This model then can be used to find the topics of negative reviews which might have leads to improve the service or lead to reviews
 which should be answered by the customer service.
 This logic could also be applied to customer complaints to find latent topics in the text and improve customer
 satisfaction.
+
+The relevant files are LDA.ipynb and LDA_preprocessing.py. 
+
+The other files are experiments to implement further features at a later point of time.
 
 
 ## Prerequisites
