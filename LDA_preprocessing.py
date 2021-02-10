@@ -158,3 +158,18 @@ def lda_processing(lda_input, model, in_strip_html=True, in_extra_whitespace=Tru
 
     return {'text_corpus': lda_corpus, 'id2word': lda_id2word, 'bi_tri_models': models,
             'data_output': lda_data_lemmatized}
+
+
+def lda_get_topics(in_dat, tops, topic_order=0):
+    """
+    Input:
+    in_data: Text for which the topic shall be evaluated
+    tops: dataframe of the topics
+    
+    Functions processes the text and gives the estimated topic from the model
+    """
+    
+    doc_vector = lda_model.id2word.doc2bow(in_dat.split())
+    doc_topics = lda_model[doc_vector]
+    df =pd.DataFrame(doc_topics[0]).sort_values(1, ascending=False)
+    return tops.loc[df[0].iloc[topic_order], 'Topic_name']
