@@ -6,8 +6,10 @@ In the following notebook the first steps to evaluate a Latent Dirichlet allocat
 ## Prerequisites
 
 To work with the project the following technologies need to be installed:
+
  - Jupyter Notebook
           
+
 To run the code successfully in the notebook the following packages need to be installed with the pip install command:
 
 ```
