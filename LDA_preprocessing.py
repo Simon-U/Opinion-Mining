@@ -161,6 +161,32 @@ def lda_processing(lda_input, model, in_strip_html=True, in_extra_whitespace=Tru
             'data_output': lda_data_lemmatized}
 
 
+def getIndexes(dfObj, value): 
+    """
+    Input:
+    Datafram which to look for the specific value
+    vlaue to look for
+    
+    Returns column and row of the value
+    """
+      
+    listOfPos = [] 
+       
+    result = dfObj.isin([value]) 
+      
+    seriesObj = result.any() 
+  
+    columnNames = list(seriesObj[seriesObj == True].index) 
+     
+    for col in columnNames: 
+        rows = list(result[col][result[col] == True].index) 
+  
+        for row in rows: 
+            listOfPos.append((row, col)) 
+
+    return listOfPos
+
+
 def lda_get_topics(model_lda, in_dat, tops, topic_order=0):
     """
     Input:
