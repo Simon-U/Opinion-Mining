@@ -41,6 +41,16 @@ The data is from Kaggle and can be found under the following link:
 
 https://www.kaggle.com/andrewmvd/trip-advisor-hotel-reviews
 
+## Steps
+
+1. Loading the data
+2. The data is processed in bi_gram and tri_gram modells and for each the LDA model is calculated with 1 to 29 topics
+3. For each model the coherence score is calculated to finde the optimal model
+4. Optimal model calulated
+5. pyLDAvis and WordClounds for Topics plotted
+6. Topics added to each review for later use
+7. t-SNE Clustering used to plot the topics
+
 
 ## ToDo
 
