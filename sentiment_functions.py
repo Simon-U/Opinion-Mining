@@ -14,4 +14,8 @@ nlp.add_pipe(spacy_text_blob)
 
 def get_sent(text):
     doc = nlp(text)
-    return doc._.sentiment.polarity, doc._.sentiment.subjectivity
+    return doc._.sentiment.polarity
+
+def get_subj(text):
+    doc = nlp(text)
+    return doc._.sentiment.subjectivity
