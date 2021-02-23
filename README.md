@@ -61,8 +61,8 @@ The procedure is outlined in the LDA.ipynb with links to the respective chapters
 - [x] Find semantic to use (bi_gram or tri_gram)
 - [X] First approach
 - [ ] First approach evaluation and topics visualisation
-- [ ]cond approach
-- [ ]econd approach evaluation and topic visualisation
+- [ ] Second approach
+- [ ] Second approach evaluation and topic visualisation
 - [ ] Conclusion
 - [ ] Build Flask App
 
