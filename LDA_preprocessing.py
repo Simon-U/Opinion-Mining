@@ -8,6 +8,8 @@ import unidecode
 import contractions
 import re
 import pandas as pd
+from gensim.models import CoherenceModel
+
 
 nlp = spacy.load('en', disable=['parser', 'ner'])
 stop_words = stopwords.words('english')
@@ -151,8 +153,10 @@ def lda_processing(lda_input, model, in_strip_html=True, in_extra_whitespace=Tru
 
     # Create Dictionary 
     lda_id2word = corpora.Dictionary(lda_data_lemmatized)
+    
     # Create Corpus 
     lda_texts = lda_data_lemmatized
+    lda_texts = remove_stopwords(lda_texts)
     # Term Document Frequency 
     lda_corpus = [lda_id2word.doc2bow(text) for text in lda_texts]
     # print('Processing completed')
@@ -200,3 +204,39 @@ def lda_get_topics(model_lda, in_dat, tops, topic_order=0):
     doc_topics = model_lda[doc_vector]
     df =pd.DataFrame(doc_topics[0]).sort_values(1, ascending=False)
     return tops.loc[df[0].iloc[topic_order], 'Topic_name']
+
+
+def lda_get_prob(model_lda, in_dat, tops, topic_order=0):
+    """
+    Input:
+    in_data: Text for which the topic shall be evaluated
+    tops: dataframe of the topics
+    
+    Functions processes the text and gives the estimated probaility from the model
+    """
+    
+    doc_vector = model_lda.id2word.doc2bow(in_dat.split())
+    doc_topics = model_lda[doc_vector]
+    df =pd.DataFrame(doc_topics[0]).sort_values(1, ascending=False)
+    return df[1].iloc[topic_order]
+
+
+def compute_coherence_values(corpus_c, text_c, dictionary_c, k, a, b):
+    """
+    Input:
+    in_data: Text data, lemmatized vector, word dictionary, number of topics, alpha, beta
+   
+    Functions processes the inout and returns the coherence score for the model
+    """ 
+    lda_model_c = gensim.models.LdaMulticore(corpus=corpus_c,
+                                           id2word=dictionary_c,
+                                           num_topics=k, 
+                                           random_state=100,
+                                           chunksize=100,
+                                           passes=10,
+                                           alpha=a,
+                                           eta=b)
+    
+    coherence_model_lda = CoherenceModel(model=lda_model_c, texts=text_c, dictionary=dictionary_c, coherence='c_v')
+    
+    return coherence_model_lda.get_coherence()
