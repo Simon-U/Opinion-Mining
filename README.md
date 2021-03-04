@@ -58,7 +58,8 @@ The procedure is outlined in the LDA.ipynb with links to the respective chapters
 ## ToDo
 
 - [x] Prepare data preprocessing
-- [x] Find semantic to use (bi_gram or tri_gram)
+- [ ] Filter extrems (word is in 50% of documents or in 10 or less documents)
+- [x] Find context to use (bi_gram or tri_gram)
 - [X] First approach
 - [ ] First approach evaluation and topics visualisation
 - [ ] Second approach
