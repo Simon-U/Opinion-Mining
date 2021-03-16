@@ -10,8 +10,7 @@ import re
 import contractions
 import unicodedata
 
-nlp = spacy.load('en_core_web_sm')
-stop_words = nltk.corpus.stopwords.words('english')
+nlp = spacy.load('en_core_web_trf')
 tokenizer = ToktokTokenizer()
 stopword_list = nltk.corpus.stopwords.words('english')
 
@@ -44,6 +43,11 @@ def remove_stopwords(text, is_lower_case=False):
     return filtered_text
 
 
+def filter_out_entities(text):
+    text = nlp(text)
+    text = ' '.join([word.text if word.ent_type_ == ''  else '' for word in text])
+    return text
+
 
 def remove_special_characters(text, remove_digits=False):
     pattern = r'[^a-zA-z0-9\s]' if not remove_digits else r'[^a-zA-z\s]'
@@ -51,9 +55,9 @@ def remove_special_characters(text, remove_digits=False):
     return text
 
 
-def text_normalization(text, new_stop = None, rem_stop = None, strip_html=True, extra_whitespace=True, accented_chars=True, 
-                       contraction=True, lowercase=True, space_correction=True, remove_single_character = True, text_lemmatization=True, 
-                       stopword_removal=True, special_char_removal = True, remove_duplicates = True, remove_digits=True):
+def text_normalization(text, strip_html=True, extra_whitespace=True, accented_chars=True, contraction=True, lowercase=True, 
+                       space_correction=True, remove_single_character = True, text_lemmatization=True, 
+                       no_ent=True, stopword_removal=True, special_char_removal = True, remove_duplicates = True, remove_digits=True):
    
     """preprocess text with default option set to true for all steps
     Input: Vector with text in each field
@@ -86,15 +90,16 @@ def text_normalization(text, new_stop = None, rem_stop = None, strip_html=True, 
         text = remove_special_characters(text, remove_digits=remove_digits)
     
     if remove_single_character:
-        pattern = r"((?<=^)|(?<= )).((?=$)|(?= ))"
+        pattern = r"((?<=^)|(?<= )).{1,2}((?=$)|(?= ))"
         text=  re.sub("\s+", " ", re.sub(pattern, '', text).strip())
 
     if text_lemmatization:
         text = lemmatize_text(text)
     
+    if no_ent:
+        text = filter_out_entities(text)
+    
     if stopword_removal:
-        [stopword_list.append(st) for st in new_stop]
-        [stopword_list.remove(st) for st in rem_stop]
         text = remove_stopwords(text)
         
     if remove_duplicates:

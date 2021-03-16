@@ -7,9 +7,8 @@ from bs4 import BeautifulSoup
 import math
 from spacytextblob.spacytextblob import SpacyTextBlob
 
-nlp = spacy.load("en_core_web_lg")
-spacy_text_blob = SpacyTextBlob()
-nlp.add_pipe(spacy_text_blob)
+nlp = spacy.load("en_core_web_trf")
+nlp.add_pipe('SpacyTextBlob')
 
 
 def get_sent(text):
