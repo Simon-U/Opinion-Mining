@@ -1,4 +1,4 @@
-# Review analysis to find potential improvement for customer satisfacition
+# Review analysis to find potential improvement for customer satisfaction
 
 In the following notebook the TripAdvisor dataset with hotel reviews will be analysed.
 The idea is to find improvement potentials for the hotels to increase customer satisfaction. 
@@ -20,7 +20,7 @@ To work with the project the following technologies need to be installed:
 - Jupyter Notebook
 
 To run the code successfully in the notebook the following packages need to be installed with the pip install command:
-The necessary dependencies can be installed with the requirements.txt and the kcommand
+The necessary dependencies can be installed with the requirements.txt and the command
 pip install -r requirements.txt
 
 
