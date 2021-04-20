@@ -41,6 +41,7 @@ The procedure is outlined in the LDA.ipynb with links to the respective chapters
 - [x] Find context to use (bi_gram or tri_gram)
 - [x] Find model parameters and number of topics
 - [x] Visualization
+- [ ] Build Knowledge graphs
 - [ ] Build Dash app
 - [ ] Train network
 
