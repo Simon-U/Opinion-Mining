@@ -53,7 +53,7 @@ scikit-learn==0.24.1
 sklearn==0.0
 smart-open==5.0.0
 soupsieve==2.2.1
-spacy==2.3.5
+spacy~=3.1.2
 spacytextblob==0.1.7
 srsly==1.0.5
 terminado==0.9.4
@@ -69,3 +69,6 @@ wasabi==0.8.2
 webencodings==0.5.1
 Werkzeug==1.0.1
 wincertstore==0.2
+
+pandas~=1.0.0
+numpy~=1.18.0
