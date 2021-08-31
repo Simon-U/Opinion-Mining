@@ -4,3 +4,4 @@ venv*
 ..ipynb_checkpoints
 .idea
 .ipynb_checkpoints
+__pychache__

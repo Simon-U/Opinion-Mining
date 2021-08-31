@@ -11,6 +11,7 @@ import pandas as pd
 from rake_nltk import Rake
 from nltk import ngrams
 from nltk.stem import WordNetLemmatizer
+from textwrap import TextWrapper
 
 wordnet_lemma = WordNetLemmatizer()
 
@@ -49,7 +50,7 @@ def text_preprocessing(doc, stopwords=None):
     # Remove numbers
     pattern = r'[\d]'
     doc = re.sub(pattern, '', doc)
-
+    
     doc = doc.translate(str.maketrans('', '', string.punctuation))
 
     # remove single character
@@ -109,13 +110,21 @@ def rake_preprocessing(doc):
     contractions.add("p m ", 'pm')
     contractions.add("a m ", 'am')
     
-    doc = contractions.fix(doc)
-    doc = doc.replace("_", " ")
-    doc = doc.lower()
+    soup = BeautifulSoup(doc, "html.parser")
+    doc = soup.get_text(separator=" ")
     pattern = r'(?<=[.,])(?=[^\s])'
     doc = re.sub(pattern, r' ', doc)
-        
-    return doc
+    doc = doc.lower()
+    doc = contractions.fix(doc)
+    doc = doc.replace("_", " ")
+    doc = unicodedata.normalize('NFKD', doc).encode('ascii', 'ignore').decode('utf-8', 'ignore')
+    pattern = r'(?<![\w])(?:[a-zA-Z0-9](?: |$))'
+    doc = re.sub(pattern, '', doc)
+    doc = re.sub(' +', ' ', doc)
+    
+    nlp_data = nlp(doc)
+    return ' '.join([word.text for word in nlp_data if word.ent_type_ == ''])
+
     
 
 def get_rake_phrases(data, max_length=5, stopwords=None):
@@ -205,7 +214,12 @@ def get_rake_phrases(data, max_length=5, stopwords=None):
 
         keyword_intersection_rake_lda = pd.DataFrame(tmp_intersection_rake_lda,
                                                      columns=['score', 'term', 'topic_number'])
-
+        
+        tw = TextWrapper()
+        tw.width = 50
+        for index in range(len(keyword_intersection_rake_lda['term'])):
+            keyword_intersection_rake_lda['term'][index] = "<br>".join(tw.wrap(keyword_intersection_rake_lda['term'][index]))
+        
         # Top score of rake keywords are used as parent term, the rest as child
         max_value = keyword_intersection_rake_lda['score'].max()
         top_key_words = keyword_intersection_rake_lda[keyword_intersection_rake_lda.score == max_value]
@@ -213,8 +227,9 @@ def get_rake_phrases(data, max_length=5, stopwords=None):
 
         # if there are more than 1 keyword in the topic title, aggregate them with a <br> so it can be plotted by plotly
         top_key_words = top_key_words.copy()
-        top_key_words = top_key_words.groupby(['score', 'topic_number']).agg({'term': lambda x: ' <br> '
+        top_key_words = top_key_words.groupby(['score', 'topic_number']).agg({'term': lambda x: ','
                                                                              .join(map(str, x))})
+
         top_key_words = top_key_words.reset_index()
         top_key_words['parent'] = ''
 

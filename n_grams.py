@@ -22,7 +22,7 @@ def context_processing(dataframe, lower_limit=20, upper_limit=0.5):
         for token in bigram[dataframe[idx]]:
             if token.count('_') == 1:
                 result.append(token)
-        dataFrame[idx].extend(result)
+        dataframe[idx].extend(result)
         
     # Create Dictionary 
     id2word = corpora.Dictionary(dataframe)
